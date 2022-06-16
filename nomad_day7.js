@@ -1,21 +1,24 @@
-const clockTitle = document.querySelector(".js-clock");
+const rngForm = document.querySelector("#rng-form");
+const rangeNumInput = document.querySelector("#rng-form h2 #range-num");
+const userNumInput = document.querySelector("#rng-form h3 #user-num");
+const playBtn = document.querySelector("#rng-form h3 #playBtn");
+const result = document.querySelector("#rng-form #result");
+const winLose = document.querySelector("#rng-form #win-lose");
 
-function countTime() {
-  const currentDate = new Date();
-  const christmasDate = new Date('December 25, 2022 00:00:00');
-  const time = christmasDate - currentDate
-  
-  const days = Math.floor(time / (1000*60*60*24))
-  const hours = Math.floor((time % (1000*60*60*24)) / (1000*60*60))
-  const minutes = Math.floor((time % (1000*60*60)) / (1000*60))
-  const seconds = Math.floor((time % (1000*60)) / 1000)
+function playBtnSubmit(event) {
+  event.preventDefault();
+  const rangeNum = rangeNumInput.value;
+  const machineNum = Math.floor(Math.random() * rangeNum);
 
-  String(hours).padStart(2, "0");
-  String(minutes).padStart(2, "0");
-  String(seconds).padStart(2, "0");
+  const userNum = userNumInput.value;
+  result.innerHTML =
+    "You chose: " + userNum + ", the machine chose: " + machineNum;
 
-  clockTitle.innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`
+  if (userNum == machineNum) {
+    winLose.innerHTML = "You won!";
+  } else {
+    winLose.innerHTML = "You lost!";
+  }
 }
 
-countTime();
-setInterval(countTime, 1000);
+rngForm.addEventListener("submit", playBtnSubmit);
